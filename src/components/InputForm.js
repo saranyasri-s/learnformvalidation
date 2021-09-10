@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import classes from "./InputForm.module.css";
 function InputForm() {
-  const [person, setPerson] = useState(null);
   const [name, setName] = useState("");
   const [nameTouched, setNameTouched] = useState(false);
   const [nameValid, setNameValid] = useState(true);
@@ -11,7 +10,6 @@ function InputForm() {
   const [emailValid, setEmailValid] = useState(true);
 
   const formIsValid = emailTouched && emailValid && nameValid && nameTouched;
-  console.log(formIsValid);
 
   const nameChangeHandler = (event) => {
     setNameTouched(true);
@@ -40,11 +38,18 @@ function InputForm() {
     setEmail(event.target.value);
   };
 
-  const personSubmitHandler = (e) => {
+  const personSubmitHandler = async (e) => {
     e.preventDefault();
     const newPerson = { name: name, email: email };
-    setPerson(newPerson);
-    console.log(newPerson);
+
+    const response = await fetch(
+      "https://inputform-1030b-default-rtdb.firebaseio.com/persons.json",
+      { method: "post", body: JSON.stringify(newPerson) }
+    );
+
+    const data = await response.json();
+
+    console.log(data);
     setName("");
     setEmail("");
     setNameTouched(false);
