@@ -23,6 +23,23 @@ function InputForm() {
     }
   };
 
+  const nameBlurHandler = () => {
+    setNameTouched(true);
+    if (name.trim().length <= 0) {
+      setNameValid(false);
+    }
+  };
+  const emailBlurHandler = () => {
+    setEmailTouched(true);
+    const validRegex =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+    if (email.match(validRegex)) {
+      setEmailValid(true);
+    } else {
+      setEmailValid(false);
+    }
+  };
   const emailChangeHandler = (event) => {
     setEmailTouched(true);
     const newEmail = event.target.value;
@@ -68,6 +85,7 @@ function InputForm() {
           className={!nameValid ? classes["invalid"] : null}
           value={name}
           onChange={nameChangeHandler}
+          onBlur={nameBlurHandler}
           type="text"
         ></input>
         {!nameValid && (
@@ -78,6 +96,7 @@ function InputForm() {
           className={!emailValid ? classes["invalid"] : null}
           value={email}
           onChange={emailChangeHandler}
+          onBlur={emailBlurHandler}
           type="email"
         ></input>
         {!emailValid && (
